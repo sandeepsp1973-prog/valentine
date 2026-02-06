@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Valentine's Day ❤️</title>
+
+<!-- Handwritten Font -->
+<link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+
+<style>
+/* -------- GLOBAL -------- */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#0b0014;
+  color:white;
+  font-family:'Handlee', cursive;
+  overflow-x:hidden;
+}
+
+/* smooth scrolling */
+html{
+  scroll-behavior:smooth;
+}
+
+section{
+  min-height:100vh;
+  padding:60px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+/* -------- HEART FLOATING -------- */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:20px;
+  animation:floatUp 6s linear infinite;
+  opacity:0.7;
+}
+
+@keyframes floatUp{
+  to{
+    transform:translateY(-120vh);
+    opacity:0;
+  }
+}
+
+/* -------- TITLE -------- */
+h1{
+  font-size:2.5rem;
+  margin-bottom:20px;
+}
+
+/* -------- LETTER -------- */
+#letterBox{
+  background:
+    linear-gradient(rgba(255,255,255,0.96),rgba(255,255,255,0.96)),
+    url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+  color:#333;
+  padding:30px;
+  border-radius:20px;
+  max-width:520px;
+  box-shadow:0 15px 40px rgba(255,105,180,0.4);
+}
+
+#typingLetter{
+  font-size:1.15rem;
+  line-height:1.9;
+  white-space:pre-wrap;
+  letter-spacing:0.4px;
+}
+
+/* -------- PHOTOS -------- */
+.memory{
+  max-width:90%;
+  border-radius:20px;
+  box-shadow:0 0 30px rgba(255,0,100,0.4);
+  margin-bottom:15px;
+}
+
+.caption{
+  font-size:1.1rem;
+  opacity:0;
+  transform:translateY(20px);
+  transition:1s;
+}
+
+.caption.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* -------- CINEMA MODE -------- */
+.cinema body{
+  background:black;
+}
+
+/* -------- BUTTONS -------- */
+button{
+  padding:12px 25px;
+  border:none;
+  border-radius:30px;
+  font-size:1rem;
+  cursor:pointer;
+  background:#ff4d88;
+  color:white;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<section>
+  <h1>Happy Valentine’s Day ❤️</h1>
+  <p>Scroll slowly… this is for you 😌</p>
+</section>
+
+<!-- LOVE LETTER -->
+<section id="love-letter">
+  <h2>A Letter From My Heart 💌</h2>
+  <div id="letterBox">
+    <p id="typingLetter"></p>
+  </div>
+</section>
+
+<!-- MEMORIES -->
+<section>
+  <img src="Memory1.png" class="memory">
+  <p class="caption">Our first smile together 💕</p>
+</section>
+
+<section>
+  <img src="Memory2.jpg" class="memory">
+  <p class="caption">Every moment feels special ✨</p>
+</section>
+
+<section>
+  <img src="Memory3.jpg" class="memory">
+  <p class="caption">Still my favorite person 😌</p>
+</section>
+
+<section>
+  <h2>Will you be my Valentine forever? 😌</h2>
+  <button onclick="sayYes()">YES 💖</button>
+</section>
+
+<section id="final" style="display:none;">
+  <h1>She said YES 💍❤️</h1>
+</section>
+
+<script>
+/* -------- FLOATING HEARTS -------- */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=15+Math.random()*20+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},300);
+
+/* -------- LETTER TYPING -------- */
+const letterText=`Dear Bhindi,
+
+I've always loved you since the first day and I'll be loving you jab tak aap chaho.
+I Know bhot saari chizen hai baad ke liye or mujhe pata hai baad may kya hona hai,
+taab bhi I Love you bhindi <3`;
+
+let i=0, started=false;
+
+function typeLetter(){
+  if(i<letterText.length){
+    typingLetter.innerHTML+=letterText.charAt(i++);
+    setTimeout(typeLetter,45);
+  }
+}
+
+window.addEventListener("scroll",()=>{
+  const box=document.getElementById("love-letter");
+  if(!started && box.getBoundingClientRect().top < window.innerHeight-100){
+    started=true;
+    document.getElementById("music").play();
+    typeLetter();
+  }
+
+  document.querySelectorAll(".caption").forEach(c=>{
+    if(c.getBoundingClientRect().top < window.innerHeight-100){
+      c.classList.add("show");
+    }
+  });
+});
+
+/* -------- YES -------- */
+function sayYes(){
+  localStorage.setItem("sheSaidYes","true");
+  document.getElementById("final").style.display="flex";
+}
+
+if(localStorage.getItem("sheSaidYes")){
+  document.getElementById("final").style.display="flex";
+}
+</script>
+
+</body>
+</html>
